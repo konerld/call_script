@@ -1,6 +1,8 @@
-mport config
+# -*- coding: utf-8
+import config
 import telebot
 import subprocess
+import time
 
 bot = telebot.TeleBot(config.token)
 chat = config.chat_id
@@ -17,14 +19,14 @@ def log(message, answer):
 
 #a Инициализируем кнопки с их содержимым
 user_markup = telebot.types.ReplyKeyboardMarkup()
-user_markup.row("/НАШ", "/МАГНОЛИЯ", "/ВОРОТА")
+user_markup.row("/NASH", "/MAGNOLIYA", "/BOPOTA")
 
 
 @bot.message_handler(commands=["start"])
 def button_action (message):
-    bot.send_message(chat_id=chat, text="Что открыть?", reply_markup=user_markup)
+    bot.send_message(chat_id=chat, text='WHAT DO YOU WANT TO OPEN?', reply_markup=user_markup)
 
-@bot.message_handler(commands=["НАШ"])
+@bot.message_handler(commands=["NASH"])
 def call1 (message):
         answer="Открываю НАШ шлагбаум (возле подъезда.)"
         log(message, answer)
@@ -52,5 +54,15 @@ def call3 (message):
 #bot.polling(none_stop=True)
 
 if __name__ == '__main__':
-    bot.polling(none_stop=True)
+#    bot.polling(none_stop=True)
+    while True:
+        try:
+            bot.polling(none_stop=True)
+
+        except Exception as e:
+            print(e)  # или просто print(e) если у вас логгера нет,
+            # или import traceback; traceback.print_exc() для печати полной инфы
+            time.sleep(15)
+
+
 
